@@ -27,6 +27,7 @@ def options(opt):
     opt.load('eigen')
     opt.load('dart')
     opt.load('hexapod_controller')
+    opt.load('glfw')
 
     opt.add_option('--shared', action='store_true', help='build shared library', dest='build_shared')
 
@@ -40,11 +41,13 @@ def configure(conf):
     conf.load('eigen')
     conf.load('dart')
     conf.load('hexapod_controller')
+    conf.load('glfw')
 
     conf.check_boost(lib='regex system filesystem', min_version='1.46')
     conf.check_eigen()
     conf.check_dart()
     conf.check_hexapod_controller()
+    conf.check_glfw()
 
     conf.env['lib_type'] = 'cxxstlib'
     if conf.options.build_shared:
@@ -80,7 +83,8 @@ def build(bld):
     robot_dart_srcs = " ".join(files)
 
     libs = 'BOOST EIGEN DART'
-    libs_graphics = libs + ' DART_GRAPHIC'
+    # libs_graphics = libs + ' DART_GRAPHIC GLFW '
+    libs_graphics = libs + ' GLFW '
 
     bld.program(features = 'cxx ' + bld.env['lib_type'],
                 source = robot_dart_srcs,
