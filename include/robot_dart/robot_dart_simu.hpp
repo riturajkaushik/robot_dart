@@ -88,7 +88,8 @@ namespace robot_dart {
                 _controller.update(_world->getTime());
 
                 _world->step(false);
-
+                //Record the states
+                _world->bake();
                 // integrate Torque (force) over time
                 Eigen::VectorXd state = rob->skeleton()->getForces().array().abs() * _world->getTimeStep();
                 _energy += state.sum();
